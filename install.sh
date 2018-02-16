@@ -4,8 +4,8 @@
 ## Rev. 1.0a
 
 # Update linux
-apt-get update && apt-get -y upgrade
-apt-get -y install python python-pip ffmpeg build-essential
+apt update && apt -y upgrade
+apt -y install python python-pip ffmpeg build-essential curl
 
 # Install Python packages --> change to requirments.txt
 echo "[+] Installing Python packages..."
@@ -59,3 +59,8 @@ echo
 echo
 echo "[+] Usage: python2.7 gizoogle.py"
 echo "[+] Terminal Usage: help"
+
+# Reboot system to ensure packages take effect
+echo "[+] Rebooting..."
+apt reboot
+
