@@ -71,8 +71,7 @@ class GooglePrompt(Cmd):
         # Get file by URI, else upload local file
         if path.startswith('http') or path.startswith('gs:'):
             resp = analyze_image(path, client)
-        
-        # TODO: check if file exists
+           
         elif os.path.exists(path):
             with open(path, 'rb') as fp:
                 img = FileStorage(fp)
@@ -80,7 +79,8 @@ class GooglePrompt(Cmd):
                 if url is not '':
                     resp = analyze_image(url, client)
         else:
-            print('File does not exist, please try again.')
+            print('[!] File path does not exist...')
+            pass
             
         # Process and extract as much data as possible. We upload to limit the
         # number of API calls. 
