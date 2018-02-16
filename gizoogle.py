@@ -16,6 +16,7 @@ from __future__ import absolute_import
 
 import re
 import os
+import os.path
 import six
 import datetime
 import ffmpeg
@@ -63,21 +64,24 @@ class GooglePrompt(Cmd):
     '''
     def do_image(self, path):
         
-        # Instantiate a speech client
+        # Instantiate an image client
         client = ImageAnnotatorClient()
         resp = None
         
         # Get file by URI, else upload local file
         if path.startswith('http') or path.startswith('gs:'):
             resp = analyze_image(path, client)
-        else:
-            # TODO: Check if the file exists
+        
+        # TODO: check if file exists
+        elif os.path.exists(path):
             with open(path, 'rb') as fp:
                 img = FileStorage(fp)
                 url = upload_file(img.read(), img.filename, img.content_type, IMAGE_STORAGE_BUCKET)
                 if url is not '':
                     resp = analyze_image(url, client)
-                
+        else:
+            print('File does not exist, please try again.')
+            
         # Process and extract as much data as possible. We upload to limit the
         # number of API calls. 
         if resp is not None:
